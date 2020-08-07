@@ -197,7 +197,7 @@ if [ $(git tag -l "${VCS_RELEASE_TAG}" | wc -l) != "0" ] ; then
 fi
 
 # Update the pom.xml versions
-$MVN versions:set -DgenerateBackupPoms=false -DnewVersion=$RELEASE_VERSION || die_with "Failed to set release version on pom.xml files"
+$MVN versions:set -DprocessAllModules -DgenerateBackupPoms=false -DnewVersion=$RELEASE_VERSION || die_with "Failed to set release version on pom.xml files"
 
 # Commit the updated pom.xml files
 git commit -a -m "Release version ${RELEASE_VERSION}" || die_with "Failed to commit updated pom.xml versions for release!"
@@ -217,7 +217,7 @@ git tag "v${RELEASE_VERSION}" || die_with "Failed to create tag ${RELEASE_VERSIO
 # START THE NEXT DEVELOPMENT PROCESS #
 ######################################
 
-$MVN versions:set -DgenerateBackupPoms=false "-DnewVersion=${NEXT_VERSION}" || die_with "Failed to set next dev version on pom.xml files, please do this manually"
+$MVN versions:set -DprocessAllModules -DgenerateBackupPoms=false "-DnewVersion=${NEXT_VERSION}" || die_with "Failed to set next dev version on pom.xml files, please do this manually"
 
 git commit -a -m "Start next development version ${NEXT_VERSION}" || die_with "Failed to commit updated pom.xml versions for next dev version! Please do this manually"
 
